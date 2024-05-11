@@ -1,0 +1,7 @@
+.venv
+.vscode
+__pycache*
+pico*
+micropython
+
+secrets.py
