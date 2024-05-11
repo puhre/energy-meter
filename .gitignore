@@ -3,5 +3,6 @@
 __pycache*
 pico*
 micropython
+*egg-info
 
 secrets.py
