@@ -1,5 +1,7 @@
-# Energy meter monitoring with Homeassistant integration
+# Energy meter monitoring using RPI Zero W with Homeassistant integration
 This repo lets you read measurements from your energy meter and monitor them using Homeassistant. The repo was created with inspiration from https://github.com/HenrikSolver/picowhanport which is a great source for schematics for the electrical circuit and parts for building your own.
+
+_The code is written for Micropython and a RPI Zero 2W and will not work for regular python._
 
 The device automatically registries MQTT Sensors using the discovery feature of Homeassistant.
 
