@@ -93,3 +93,15 @@ Once everything is setup, you simple copy the directory `energy_analog` to the e
 ## Future development
 - Possible to turn off Homeassistant integration
 - Publish messages via bluetooth
+
+
+## Gallery
+
+![](images/rpi0-complete.jpg)
+*Pro tip: Electrical tape hides dodgy soldering work*
+
+![](images/energy_meter_stand_in.jpg)
+*Old RPi 2b+ was dusted of to serve its probably last purpose*
+
+![](images/inverter_circuit.jpg)
+*Inverter circuit was a saviour when doing this project*
