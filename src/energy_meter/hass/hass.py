@@ -1,7 +1,7 @@
 from energy_meter.util.message import Message
 import machine
 from energy_meter.hass.hass_config import (
-    HASS_CONFIG_JSON,
+    create_config_json,
 )
 import json
 import time
@@ -18,27 +18,34 @@ class HassMqttMessage(Message):
     _DEVICE_CLASS = "unset"
     _SATE_CLASS = "measurement"
     _CONFIG = "{}"
+    _EXTRA_CONFIG = {
+       "value_template": "{{value | float}}"
+    }
 
     def __init__(self, payload: bytes):
         super().__init__(("%s/%s/%s" % (_HASS_PREFIX, _OBJECT_ID, self._TOPIC)).encode(), payload)
     
     @classmethod
     def get_config_message(cls):
-        _CONFIG = HASS_CONFIG_JSON.format(
+        _CONFIG = create_config_json(
             base_topic=("%s/%s" % (_HASS_PREFIX, _OBJECT_ID)),
             topic=cls._TOPIC,
             unit=cls._UNIT,
             device_class=cls._DEVICE_CLASS,
             state_class=cls._SATE_CLASS,
             version=__VERSION__,
-            sn=_OBJECT_ID,
-            health_topic=HassMqttMessageHealth._TOPIC)
+            serial_number=_OBJECT_ID,
+            health_topic=HassMqttMessageHealth._TOPIC,
+            **cls._EXTRA_CONFIG)
         return Message(("%s/%s/%s/%s" % (_HASS_PREFIX, _OBJECT_ID, cls._TOPIC, "config")).encode(), _CONFIG.encode(), True)
 
 class HassMqttMessageHealth(HassMqttMessage):
     _TOPIC = "health"
     _UNIT = ""
-    _DEVICE_CLASS = "None"
+    _DEVICE_CLASS = "enum"
+    _EXTRA_CONFIG = {
+        "options": ["online", "offline"]
+    }
     
     def __init__(self):
         super().__init__(b"online")
@@ -46,7 +53,8 @@ class HassMqttMessageHealth(HassMqttMessage):
 class HassMqttMessageUptime(HassMqttMessage):
     _TOPIC = "uptime"
     _UNIT = ""
-    _DEVICE_CLASS = "None"
+    _DEVICE_CLASS = None
+    _SATE_CLASS = "total_increasing"
     
     def __init__(self):
         # TODO: diff with t0
